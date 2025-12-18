@@ -16,8 +16,21 @@ public class CobaController {
 
 
 
+    // localhost:8080/coba
     @GetMapping
     public String welcomePage(){
+        return "welcome";
+    }
+
+    // localhost:8080/coba/data
+    @GetMapping("/data")
+    public String data(){
+        return "welcome";
+    }
+
+    // localhost:8080/coba/doang
+    @GetMapping("/doang")
+    public String doang(){
         return "welcome";
     }
 }
