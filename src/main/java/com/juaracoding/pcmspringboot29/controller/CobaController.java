@@ -15,7 +15,6 @@ public class CobaController {
     Random random ;
 
 
-
     // localhost:8080/coba
     @GetMapping
     public String welcomePage(){
