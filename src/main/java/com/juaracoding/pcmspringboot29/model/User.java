@@ -1,5 +1,6 @@
 package com.juaracoding.pcmspringboot29.model;
 
+
 public class User {
 
     private String nama;

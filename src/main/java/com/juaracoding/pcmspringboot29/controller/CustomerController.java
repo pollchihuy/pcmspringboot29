@@ -25,7 +25,7 @@ public class CustomerController {
 
         Customer customer = new Customer();
         customer.setEmail("paul@gmail.com");
-        customer.setNama("Paul");
+//        customer.setNama("Paul");
         customer.setUsername("paul123");
         return map;
     }
@@ -60,7 +60,7 @@ public class CustomerController {
 //        map.put("nama","Paul");
 //        map.put("username","paul123");
 
-        System.out.println("Nama : "+customer.getNama());
+//        System.out.println("Nama : "+customer.getNama());
         System.out.println("Email : "+customer.getEmail());
         System.out.println("Username : "+customer.getUsername());
         System.out.println("Tanggal Lahir : "+customer.getTanggalLahir());
@@ -76,7 +76,7 @@ public class CustomerController {
 
         System.out.println("ID : "+id);
         System.out.println("TOKEN : "+token);
-        System.out.println("Nama : "+customer.getNama());
+//        System.out.println("Nama : "+customer.getNama());
         System.out.println("Email : "+customer.getEmail());
         System.out.println("Username : "+customer.getUsername());
         System.out.println("Tanggal Lahir : "+customer.getTanggalLahir());

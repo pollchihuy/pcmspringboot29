@@ -5,8 +5,9 @@ import org.mindrot.jbcrypt.BCrypt;
 public class BcryptExample {
 
     public static void main(String[] args) {
-        String originalPassword = "MySecurePassword@2025";
+        String originalPassword = "Ashfiya@1234";
 
+        System.out.println("$2a$12$eaJZJOKgdB2Dg6TwLXJhMed6VN.HQclvKhX812NOzUT5fPmpvEzx2".length());
         // --- Proses Hashing (Saat Pengguna Mendaftar) ---
         // Parameter kedua adalah "work factor" atau "log rounds".
         // Nilai antara 10-12 adalah standar yang baik.
