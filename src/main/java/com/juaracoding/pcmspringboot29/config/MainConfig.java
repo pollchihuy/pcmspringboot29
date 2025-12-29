@@ -1,6 +1,7 @@
 package com.juaracoding.pcmspringboot29.config;
 
 import com.juaracoding.pcmspringboot29.security.Crypto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -31,5 +32,10 @@ public class MainConfig {
         dBuild.username(Crypto.performDecrypt(env.getProperty("spring.datasource.username")));
         dBuild.url(Crypto.performDecrypt(env.getProperty("spring.datasource.url")));
         return dBuild.build();
+    }
+
+    @Bean
+    public ModelMapper getModelMapper(){
+        return new ModelMapper();
     }
 }

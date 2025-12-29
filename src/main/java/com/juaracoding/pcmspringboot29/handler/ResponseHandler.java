@@ -41,8 +41,6 @@ public class ResponseHandler {
 
         Map<String,Object> m = new HashMap<>();
         m.put("message",message);
-//        m.put("is_beda",isBeda);
-//        m.put("status",status.value());
         m.put("data",data==null?"":data);
         m.put("timestamp", Instant.now().toString());
 //        m.put("success",!status.isError());

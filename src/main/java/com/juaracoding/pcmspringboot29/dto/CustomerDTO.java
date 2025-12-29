@@ -15,6 +15,42 @@ public class CustomerDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonProperty("tanggal_lahir")
     private String tanggalLahir;
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@_#\\-$])[\\w].{8,15}$",
+            message = "Format minimal 1 angka, 1 huruf kecil, 1 huruf besar, 1 spesial karakter (_ \"Underscore\", - \"Hyphen\", # \"Hash\", atau $ \"Dollar\" atau @ \"At\") setelah 4 kondisi min 9 max 16 alfanumerik, contoh : aB4$12345")
+    private String password;
+
+    @Pattern(regexp = "^(62|\\+62|0)8[0-9]{9,13}$",
+            message = "Format No HP Tidak Valid , min 9 max 13 setelah angka 8, contoh : (0/62/+62)81111111")
+    @JsonProperty("no_hp")
+    private String noHp;
+
+    private String tambahan;
+
+    public String getTambahan() {
+        return tambahan;
+    }
+
+    public void setTambahan(String tambahan) {
+        this.tambahan = tambahan;
+    }
+
+    public @Pattern(regexp = "^(62|\\+62|0)8[0-9]{9,13}$",
+            message = "Format No HP Tidak Valid , min 9 max 13 setelah angka 8, contoh : (0/62/+62)81111111") String getNoHp() {
+        return noHp;
+    }
+
+    public void setNoHp(@Pattern(regexp = "^(62|\\+62|0)8[0-9]{9,13}$",
+            message = "Format No HP Tidak Valid , min 9 max 13 setelah angka 8, contoh : (0/62/+62)81111111") String noHp) {
+        this.noHp = noHp;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public @Pattern(regexp = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", message = "Nama lengkap hanya boleh mengandung huruf, spasi, dan karakter tanda baca standar (seperti tanda hubung, titik, atau tanda petik tunggal). Pastikan nama tidak dimulai dengan karakter spesial atau angka.") String getNama() {
         return nama;

@@ -1,6 +1,5 @@
 package com.juaracoding.pcmspringboot29.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -28,7 +27,6 @@ public class Customer {
     private LocalDate tanggalLahir;
     @Transient
     private Integer umur;
-
     private String tambahan;
 
     public String getTambahan() {
