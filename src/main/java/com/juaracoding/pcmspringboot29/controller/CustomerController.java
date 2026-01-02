@@ -4,6 +4,7 @@ import com.juaracoding.pcmspringboot29.dto.CustomerDTO;
 import com.juaracoding.pcmspringboot29.handler.ResponseHandler;
 import com.juaracoding.pcmspringboot29.services.CustomerService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("customer")
@@ -91,6 +93,30 @@ public class CustomerController {
         }
 
         return customerService.findByParam(pageable,column,value,request);
+    }
+
+    @PostMapping("/upload-excel")
+    public ResponseEntity<Object> uploadExcel(MultipartFile filez , HttpServletRequest request){
+        return customerService.uploadDataExcel(filez,request);
+    }
+    @GetMapping("/download-excel")
+    public void downloadExcel(
+            @RequestParam String column,
+            @RequestParam String value,
+            HttpServletRequest request,
+            HttpServletResponse response
+            ){
+        customerService.downloadReportExcel(column,value,request,response);
+    }
+
+    @GetMapping("/download-pdf")
+    public void downloadPDF(
+            @RequestParam String column,
+            @RequestParam String value,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ){
+        customerService.generateToPDF(column,value,request,response);
     }
     private String sortColumn(String column){
         switch (column){

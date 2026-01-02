@@ -28,5 +28,7 @@ public interface CustomerRepo extends JpaRepository<Customer,Long> {
     List<Customer> findByEmailContains(String value);
     @Query(value = "SELECT c FROM Customer c WHERE cast(c.tanggalLahir as string) LIKE CONCAT('%',?1,'%') ")
     List<Customer> cariTanggal(String value);
+    @Query(value = "SELECT c FROM Customer c WHERE cast(datediff(year,c.tanggalLahir,current_timestamp) as string) LIKE CONCAT('%',?1,'%') ")
+    List<Customer> liatUmur(String value);
 
 }

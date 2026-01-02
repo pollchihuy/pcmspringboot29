@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .total {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1 th:text="${customerName}"></h1>
+</div>
+
+<p>Berikut adalah data customer :</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nama Lengkap</th>
+        <th>Email</th>
+        <th>Tanggal Lahir</th>
+        <th>No HP</th>
+        <th>Tambahan</th>
+        <th>Umur</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer : ${customers}">
+        <td th:text="${customer.id}"></td>
+        <td th:text="${customer.nama}"></td>
+        <td th:text="${customer.email}"></td>
+        <td th:text="${customer.tanggalLahir}"></td>
+        <td th:text="${customer.noHp}"></td>
+        <td th:text="${customer.tambahan}"></td>
+        <td th:text="${customer.umur}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<p style="margin-top: 30px;" th:text="${totalData}"></p>
+<p style="margin-top: 30px;">Terima kasih telah berbelanja!</p>
+</body>
+</html>
