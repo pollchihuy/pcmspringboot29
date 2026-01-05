@@ -64,34 +64,25 @@ public class CustomerService implements IService<Customer>, IReport<Customer> {
     @Override
     public ResponseEntity<Object> save(Customer customer, HttpServletRequest request) {
         if(customer==null){
-            return new ResponseHandler().handleResponse("GAGAL DISIMPAN", HttpStatus.BAD_REQUEST,null,
-                    "MST10V001",request);
+            return GlobalResponse.dataGagalDisimpan("MST10V001",request);
         }
-//        if(customer.getId() == null){
-//            return new ResponseHandler().handleResponse("GAGAL DISIMPAN", HttpStatus.BAD_REQUEST,null,
-//                    "MST10V002",request);
-//        }
         try {
             customerRepo.save(customer);
         }catch (Exception e){
             GlobalFunction.printConsole(e.getMessage());
             LoggingFile.logException("CustomerService","public String welcomePage() line 29 "+ RequestCapture.allRequest(request),e);
-            return new ResponseHandler().handleResponse("INTERNAL SERVER ERROR", HttpStatus.INTERNAL_SERVER_ERROR,null,
-                    "MST10V010",request);
+            return GlobalResponse.terjadiKesalahan("MST10V010",request);
         }
-        return new ResponseHandler().handleResponse("DATA BERHASIL DISIMPAN", HttpStatus.CREATED,null,
-                null,request);
+        return GlobalResponse.dataBerhasilDisimpan(request);
     }
 
     @Override
     public ResponseEntity<Object> update(Long id, Customer customer, HttpServletRequest request) {
         if(id ==null){
-            return new ResponseHandler().handleResponse("GAGAL DIUBAH", HttpStatus.BAD_REQUEST,null,
-                    "MST10V011",request);
+            return GlobalResponse.dataGagalDiubah("MST10V011",request);
         }
         if(customer==null){
-            return new ResponseHandler().handleResponse("GAGAL DIUBAH", HttpStatus.BAD_REQUEST,null,
-                    "MST10V012",request);
+            return GlobalResponse.dataGagalDiubah("MST10V012",request);
         }
 
         try{
@@ -100,8 +91,7 @@ public class CustomerService implements IService<Customer>, IReport<Customer> {
              */
             Optional<Customer> optionalCustomer = customerRepo.findById(id);
             if(optionalCustomer.isEmpty()){
-                return new ResponseHandler().handleResponse("DATA TIDAK DITEMUKAN", HttpStatus.BAD_REQUEST,null,
-                        "MST10V013",request);
+                return GlobalResponse.dataTidakDitemukan("MST10V013",request);
             }
             /** kalau data ditemukan masuk ke langkah ini */
             Customer customerDB  = optionalCustomer.get();
@@ -114,33 +104,27 @@ public class CustomerService implements IService<Customer>, IReport<Customer> {
             customerDB.setNoHp(customer.getNoHp());// noHp = ?
         }catch (Exception e ){
             LoggingFile.logException("CustomerService","update(Long id, Customer customer, HttpServletRequest request) LINE 81 " + RequestCapture.allRequest(request),e);
-            return new ResponseHandler().handleResponse("INTERNAL SERVER ERROR", HttpStatus.INTERNAL_SERVER_ERROR,null,
-                    "MST10E020",request);
+            return GlobalResponse.terjadiKesalahan("MST10E020",request);
         }
-        return new ResponseHandler().handleResponse("DATA BERHASIL DIUBAH", HttpStatus.OK,null,
-                null,request);
+        return GlobalResponse.dataBerhasilDiubah(request);
     }
 
     @Override
     public ResponseEntity<Object> delete(Long id, HttpServletRequest request) {
         if(id ==null){
-            return new ResponseHandler().handleResponse("GAGAL DIHAPUS", HttpStatus.BAD_REQUEST,null,
-                    "MST10V021",request);
+            return GlobalResponse.dataGagalDihapus("MST10V021",request);
         }
         try{
             Optional<Customer> optionalCustomer = customerRepo.findById(id);
             if(optionalCustomer.isEmpty()){
-                return new ResponseHandler().handleResponse("DATA TIDAK DITEMUKAN", HttpStatus.NOT_FOUND,null,
-                        "MST10V022",request);
+                return GlobalResponse.dataTidakDitemukan("MST10V022",request);
             }
             customerRepo.deleteById(id);
         }catch (Exception e ){
             LoggingFile.logException("CustomerService","update(Long id, Customer customer, HttpServletRequest request) LINE 81 " + RequestCapture.allRequest(request),e);
-            return new ResponseHandler().handleResponse("INTERNAL SERVER ERROR", HttpStatus.INTERNAL_SERVER_ERROR,null,
-                    "MST10E030",request);
+            return GlobalResponse.terjadiKesalahan("MST10E030",request);
         }
-        return new ResponseHandler().handleResponse("DATA BERHASIL DIHAPUS", HttpStatus.NO_CONTENT,null,
-                null,request);
+        return GlobalResponse.dataBerhasilDihapus(request);
     }
 
     /** menyajikan data inisial dari sebuah menu */
@@ -151,41 +135,34 @@ public class CustomerService implements IService<Customer>, IReport<Customer> {
         try{
             page = customerRepo.findAll(pageable);
             if(page.isEmpty()){
-                return new ResponseHandler().handleResponse("DATA TIDAK DITEMUKAN", HttpStatus.NOT_FOUND,null,
-                        "MST10V031",request);
+                return GlobalResponse.dataTidakDitemukan("MST10V031",request);
             }
             mapResponse = tf.transformPagination(mapMPToDTO(page.getContent()),page,"id","");
         }catch (Exception e){
             LoggingFile.logException("CustomerService","findAll(Pageable pageable, HttpServletRequest request) LINE 140 " + RequestCapture.allRequest(request),e);
-            return new ResponseHandler().handleResponse("INTERNAL SERVER ERROR", HttpStatus.INTERNAL_SERVER_ERROR,null,
-                    "MST10E040",request);
+            return GlobalResponse.terjadiKesalahan("MST10E040",request);
         }
 
-        return new ResponseHandler().handleResponse("DATA DITEMUKAN", HttpStatus.OK,mapResponse,
-                null,request);
+        return GlobalResponse.dataDitemukan(mapResponse,request);
     }
 
     @Override
     public ResponseEntity<Object> findById(Long id, HttpServletRequest request) {
         Customer customerDB = null;
         if(id ==null){
-            return new ResponseHandler().handleResponse("DATA TIDAK DITEMUKAN", HttpStatus.BAD_REQUEST,null,
-                    "MST10V041",request);
+            return GlobalResponse.dataTidakDitemukan("MST10V041",request);
         }
         try{
             Optional<Customer> optionalCustomer = customerRepo.findById(id);
             if(optionalCustomer.isEmpty()){
-                return new ResponseHandler().handleResponse("DATA TIDAK DITEMUKAN", HttpStatus.BAD_REQUEST,null,
-                        "MST10V042",request);
+                return GlobalResponse.dataTidakDitemukan("MST10V042",request);
             }
            customerDB = optionalCustomer.get();
         }catch (Exception e ){
             LoggingFile.logException("CustomerService","update(Long id, Customer customer, HttpServletRequest request) LINE 81 " + RequestCapture.allRequest(request),e);
-            return new ResponseHandler().handleResponse("INTERNAL SERVER ERROR", HttpStatus.INTERNAL_SERVER_ERROR,null,
-                    "MST10E050",request);
+            return GlobalResponse.terjadiKesalahan("MST10E050",request);
         }
-        return new ResponseHandler().handleResponse("DATA DITEMUKAN", HttpStatus.OK,mapMPToDTO(customerDB),
-                null,request);
+        return GlobalResponse.dataDitemukan(mapMPToDTO(customerDB),request);
     }
 
     @Override
@@ -202,18 +179,15 @@ public class CustomerService implements IService<Customer>, IReport<Customer> {
                 default:page=customerRepo.findAll(pageable);break;
             }
             if(page.isEmpty()){
-                return new ResponseHandler().handleResponse("DATA TIDAK DITEMUKAN", HttpStatus.NOT_FOUND,null,
-                        "MST10V031",request);
+                return GlobalResponse.dataTidakDitemukan("MST10V031",request);
             }
             mapResponse = tf.transformPagination(mapMPToDTO(page.getContent()),page,"id","");
         }catch (Exception e){
             LoggingFile.logException("CustomerService","findAll(Pageable pageable, HttpServletRequest request) LINE 140 " + RequestCapture.allRequest(request),e);
-            return new ResponseHandler().handleResponse("INTERNAL SERVER ERROR", HttpStatus.INTERNAL_SERVER_ERROR,null,
-                    "MST10E040",request);
+            return GlobalResponse.terjadiKesalahan("MST10E040",request);
         }
 
-        return new ResponseHandler().handleResponse("DATA DITEMUKAN", HttpStatus.OK,mapResponse,
-                null,request);
+        return GlobalResponse.dataDitemukan(mapResponse,request);
     }
 
     @Override
@@ -231,8 +205,7 @@ public class CustomerService implements IService<Customer>, IReport<Customer> {
         String message = "";
         try{
             if(!ExcelReader.hasWorkBookFormat(multipartFile)){
-                return new ResponseHandler().handleResponse("FORMAT HARUS EXCEL", HttpStatus.UNSUPPORTED_MEDIA_TYPE,null,
-                        "MST10V061",request);
+                return GlobalResponse.formatHarusExcel("MST10V061",request);
             }
             /** getDataMap untuk mengembalikan List<Map<String,String>> */
             List lt = new ExcelReader(multipartFile.getInputStream(),"Sheet1").getDataMap();
@@ -241,17 +214,14 @@ public class CustomerService implements IService<Customer>, IReport<Customer> {
             /** getDataWithoutHeader untuk mengembalikan String[][] tanpa nama kolom */
             String [][] strArrDuaDimensiTanpaHeader = new ExcelReader(multipartFile.getInputStream(),"Sheet1").getDataWithoutHeader();
             if(lt.isEmpty()){
-                return new ResponseHandler().handleResponse("FILE EXCEL KOSONG", HttpStatus.BAD_REQUEST,null,
-                        "MST10V062",request);
+                return GlobalResponse.fileExcelKosong("MST10V062",request);
             }
             customerRepo.saveAll(convertListWorkBookToListEntity(lt,1L));
         }catch (Exception e){
             LoggingFile.logException("CustomerService","uploadDataExcel(MultipartFile multipartFile, HttpServletRequest request)  LINE 225 " + RequestCapture.allRequest(request),e);
-            return new ResponseHandler().handleResponse("INTERNAL SERVER ERROR", HttpStatus.INTERNAL_SERVER_ERROR,null,
-                    "MST10E070",request);
+            return GlobalResponse.terjadiKesalahan("MST10E070",request);
         }
-        return new ResponseHandler().handleResponse("DATA BERHASIL DISIMPAN", HttpStatus.CREATED,null,
-                null,request);
+        return GlobalResponse.dataBerhasilDisimpan(request);
     }
 
     @Override
@@ -342,6 +312,85 @@ public class CustomerService implements IService<Customer>, IReport<Customer> {
         }
     }
 
+    /**
+     * Menggunakan Java Reflection
+     * @param column
+     * @param value
+     * @param request
+     * @param response
+     * @param o
+     */
+    public void downloadReportExcel(String column, String value, HttpServletRequest request,
+                                    HttpServletResponse response,Object o) {
+        List list = null;
+        try{
+            switch (column){
+                case "nama":list=customerRepo.findByNamaContains(value);break;
+                case "noHp":list=customerRepo.findByNoHpContains(value);break;
+                case "email":list=customerRepo.findByEmailContains(value);break;
+                case "tanggalLahir":list=customerRepo.cariTanggal(value);break;
+                case "umur":list=customerRepo.liatUmur(value);break;
+                default:list=customerRepo.findAll();break;
+            }
+            if(list.isEmpty()){
+                ResponseEntity<Object> respObject =
+                        GlobalResponse.dataTidakDitemukan("MST10V071",request);
+                response.getWriter().write(convertObjectToJson(respObject));
+                response.setStatus(respObject.getStatusCodeValue());
+
+                return ;
+            }
+            List<RespCustomerDTO> listCustomerDTO =  mapMPToDTO(list);
+            String headerKey = "Content-Disposition";
+            sBuild.setLength(0);
+            String headerValue = sBuild.append("attachment; filename=customer_").
+                    append(new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date())).
+                    append(".xlsx").toString();//customer_02012026_201312.xlsx
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setHeader(headerKey, headerValue);
+            /**
+             * Disini perbedaan script untuk reflection
+             * Class -> Map (key "untuk mengambil/extract value", juga untuk penamaan kolom)
+             * Object 1 -> mengambil value , contoh : map.get("nama")
+             * Object 2 -> untuk penamaan kolom , contoh : id -> ID/Id, nama -> Nama, email -> Email
+             */
+            Map<String,Object> map = GlobalFunction.convertClassToMap(new RespCustomerDTO());
+            List<String> listTemp = new ArrayList<>();
+            for (Map.Entry<String,Object> entry : map.entrySet()) {
+                listTemp.add(entry.getKey());
+            }
+            int intListTemp = listTemp.size();
+            String [] headerArr = new String[intListTemp];//kolom judul di excel
+            String [] loopDataArr = new String[intListTemp];//kolom judul java reflection
+
+            for (int i = 0; i < intListTemp; i++) {
+                /** contoh : tanggalLahir -> Tanggal Lahir / TANGGAL LAHIR*/
+                headerArr[i] = GlobalFunction.camelToStandard(listTemp.get(i));// id-> ID , nama -> Nama , tanggalLahir -> Tanggal Lahir
+                loopDataArr[i] = listTemp.get(i);
+            }
+            int intListDTOSize = listCustomerDTO.size();
+            String [][] dataArr2D = new String[intListDTOSize][headerArr.length];
+            for (int i = 0; i < intListDTOSize; i++) {
+                map = GlobalFunction.convertClassToMap(listCustomerDTO.get(i));
+                for (int j = 0; j < intListTemp; j++) {
+                    dataArr2D[i][j] = String.valueOf(map.get(loopDataArr[j]));
+                }
+            }
+            new ExcelWriter(dataArr2D,headerArr,"Sheet1",response);
+        }catch (Exception e){
+            LoggingFile.logException("CustomerService","downloadReportExcel(String column, String value, HttpServletRequest request, HttpServletResponse response) LINE 291 " + RequestCapture.allRequest(request),e);
+            ResponseEntity<Object> respObject =
+                    GlobalResponse.terjadiKesalahan("MST10E080",request);
+            try {
+                response.getWriter().write(convertObjectToJson(respObject));
+                response.setStatus(respObject.getStatusCodeValue());
+            } catch (IOException ex) {
+                LoggingFile.logException("CustomerService","downloadReportExcel(String column, String value, HttpServletRequest request, HttpServletResponse response) LINE 300 " + RequestCapture.allRequest(request),e);
+            }
+            return ;
+        }
+    }
+
     @Override
     public void generateToPDF(String column, String value, HttpServletRequest request, HttpServletResponse response) {
         List list = null;
@@ -389,6 +438,74 @@ public class CustomerService implements IService<Customer>, IReport<Customer> {
         }
     }
 
+    /**Reflection untuk PDF */
+    public void generateToPDF(String column, String value, HttpServletRequest request,
+                              HttpServletResponse response,Object o) {
+        List list = null;
+        try{
+            switch (column){
+                case "nama":list=customerRepo.findByNamaContains(value);break;
+                case "noHp":list=customerRepo.findByNoHpContains(value);break;
+                case "email":list=customerRepo.findByEmailContains(value);break;
+                case "tanggalLahir":list=customerRepo.cariTanggal(value);break;
+                case "umur":list=customerRepo.liatUmur(value);break;
+                default:list=customerRepo.findAll();break;
+            }
+            if(list.isEmpty()){
+                ResponseEntity<Object> respObject =
+                        GlobalResponse.dataTidakDitemukan("MST10V081",request);
+                response.getWriter().write(convertObjectToJson(respObject));
+                response.setStatus(respObject.getStatusCodeValue());
+
+                return ;
+            }
+            List<RespCustomerDTO> listCustomerDTO =  mapMPToDTO(list);
+            Map<String,Object> mapColumnName = GlobalFunction.convertClassToMap(new RespCustomerDTO());
+            List<String> listTemp = new ArrayList<>();// ini nama kolom
+            List<String> listHelper = new ArrayList<>();// ini untuk mengekstrak value nya
+            for (Map.Entry<String,Object> m:mapColumnName.entrySet()) {
+                listTemp.add(GlobalFunction.camelToStandard(m.getKey()));
+                listHelper.add(m.getKey());
+            }
+            int intRepCustomerDTOSize = listCustomerDTO.size();
+            Map<String,Object> mapTemp = null;
+            List<Map<String,Object>> listMap = new ArrayList<>();
+
+            /** List<RespCustomerDTO> ->> List<Map<String,Object>> */
+            for (int i = 0; i < intRepCustomerDTOSize; i++) {
+                mapTemp = GlobalFunction.convertClassToMap(listCustomerDTO.get(i));
+                listMap.add(mapTemp);
+            }
+
+            Map<String,Object> mapResponse = new HashMap<>();
+            Context context = new Context();
+            String strHtml = null;
+
+            mapResponse.put("title","REPORT DATA MENU");
+            mapResponse.put("listKolom",listTemp);
+            mapResponse.put("timestamp",new SimpleDateFormat("dd MMMM yyyy HH:mm:ss").format(new Date()));
+            mapResponse.put("listHelper",listHelper);
+            mapResponse.put("listContent",listMap);
+            mapResponse.put("totalData", intRepCustomerDTOSize);
+            mapResponse.put("username","Paul");
+
+            context.setVariables(mapResponse);
+            strHtml = springTemplateEngine.process("global-report",context);
+            pdfGenerator.htmlToPdf(strHtml,"customer",response);
+        }catch (Exception e){
+            LoggingFile.logException("CustomerService","generateToPDF(String column, String value, HttpServletRequest request, HttpServletResponse response) LINE 291 " + RequestCapture.allRequest(request),e);
+            ResponseEntity<Object> respObject =
+                    GlobalResponse.terjadiKesalahan("MST10E090",request);
+            try {
+                response.getWriter().write(convertObjectToJson(respObject));
+                response.setStatus(respObject.getStatusCodeValue());
+            } catch (IOException ex) {
+                LoggingFile.logException("CustomerService","downloadReportExcel(String column, String value, HttpServletRequest request, HttpServletResponse response) LINE 300 " + RequestCapture.allRequest(request),e);
+            }
+            return ;
+        }
+    }
+
 //    public Customer mapToEntity(CustomerDTO customerDTO){
 //        Customer customer = new Customer();
 //        customer.setUsername(customerDTO.getUsername());
@@ -401,7 +518,6 @@ public class CustomerService implements IService<Customer>, IReport<Customer> {
 //    }
     /** DTO untuk Request */
     public Customer mapMPToEntity(CustomerDTO customerDTO){
-
         Customer customer = modelMapper.map(customerDTO,Customer.class);
         customer.setTanggalLahir(LocalDate.parse(customerDTO.getTanggalLahir()));
         return customer;

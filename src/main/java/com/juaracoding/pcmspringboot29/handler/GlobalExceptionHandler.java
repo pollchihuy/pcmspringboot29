@@ -1,16 +1,23 @@
 package com.juaracoding.pcmspringboot29.handler;
 
+import com.juaracoding.pcmspringboot29.config.OtherConfig;
+import com.juaracoding.pcmspringboot29.util.LoggingFile;
+import com.juaracoding.pcmspringboot29.util.RequestCapture;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,5 +54,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 //        return ResponseEntity.status(status.value()).body(problemDetail);
 //        return new ResponseHandler().handleResponse("Data Tidak Valid", (HttpStatus) status,apiSubErrors,"X01001",request);
         return new ResponseHandler().handleResponse("Format Tidak Valid",(HttpStatus) status,apiSubErrors,"X01001",request);
+    }
+
+    @ExceptionHandler(UnexpectedRollbackException.class)
+    public ResponseEntity<Object> unexpectedRollbackException(UnexpectedRollbackException ex, HttpServletRequest request){
+        LoggingFile.logException("GlobalExceptionHandler","unexpectedRollbackException "+ RequestCapture.allRequest(request),ex);
+        return new ResponseHandler().handleResponse("Rollback untuk Transaksi Telah dilakukan",HttpStatus.BAD_REQUEST,null,"X02001",request);
+    }
+    @ExceptionHandler(FileAlreadyExistsException.class)
+    public ResponseEntity<Object> fileAlreadyExistsException(FileAlreadyExistsException ex, HttpServletRequest request){
+        LoggingFile.logException("GlobalExceptionHandler","fileAlreadyExistsException "+ RequestCapture.allRequest(request),ex);
+        return new ResponseHandler().handleResponse("File Telah Dibuat Sebelumnya",HttpStatus.BAD_REQUEST,null,"X04001",request);
+    }
+
+
+    public ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, HttpServletRequest request) {
+        LoggingFile.logException("GlobalExceptionHandler","handleExceptionInternal "+ RequestCapture.allRequest(request),ex);
+        return new ResponseHandler().handleResponse("Terjadi Kesalahan Di Server",status,null,"X05999",request);
     }
 }

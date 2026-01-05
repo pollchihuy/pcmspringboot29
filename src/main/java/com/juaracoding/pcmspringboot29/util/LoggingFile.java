@@ -17,7 +17,7 @@ public class LoggingFile {
             logger.error(sBuild.append(System.getProperty("line.separator")).
                     append("ERROR IN CLASS ==> ").append(strClass).append(System.getProperty("line.separator")).
                     append("METHOD ==> ").append(strMethod).append(System.getProperty("line.separator")).
-                    append("ERROR IS ==> ").append(e.getMessage()).append(System.getProperty("line.separator")));
+                    append("ERROR IS ==> ").append(e.getCause()).append("---").append(e.getMessage()).append(System.getProperty("line.separator")));
         }
     }
 

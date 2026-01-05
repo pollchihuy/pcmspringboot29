@@ -1,8 +1,8 @@
 package com.juaracoding.pcmspringboot29.controller;
 
-import com.juaracoding.pcmspringboot29.dto.CustomerDTO;
+import com.juaracoding.pcmspringboot29.dto.validasi.ValKategoriProdukDTO;
 import com.juaracoding.pcmspringboot29.handler.ResponseHandler;
-import com.juaracoding.pcmspringboot29.services.CustomerService;
+import com.juaracoding.pcmspringboot29.services.KategoriProdukService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -16,61 +16,51 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("customer")
-public class CustomerController {
+@RequestMapping("kategoriProduk")
+public class KategoriProdukController {
 
     @Autowired
-    private CustomerService customerService;
+    private KategoriProdukService kategoriProdukService;
 
-    // POST localhost:8080/customer
+    // POST localhost:8080/kategoriProduk
     @PostMapping
-    public ResponseEntity<Object> save(@Valid @RequestBody CustomerDTO customerDTO,
+    public ResponseEntity<Object> save(@Valid @RequestBody ValKategoriProdukDTO valKategoriProdukDTO,
                                        HttpServletRequest request){
-        return customerService.save(customerService.mapMPToEntity(customerDTO),
+        return kategoriProdukService.save(kategoriProdukService.mapMPToEntity(valKategoriProdukDTO),
                 request);
     }
 
-    // PUT localhost:8080/customer/{id}
+    // PUT localhost:8080/kategoriProduk/{id}
     @PutMapping("/{id}")
-    public ResponseEntity<Object> update(@Valid @RequestBody CustomerDTO customerDTO,
+    public ResponseEntity<Object> update(@Valid @RequestBody ValKategoriProdukDTO valKategoriProdukDTO,
                                        @PathVariable Long id,
                                        HttpServletRequest request){
-        return customerService.update(id,customerService.mapMPToEntity(customerDTO),
+        return kategoriProdukService.update(id,kategoriProdukService.mapMPToEntity(valKategoriProdukDTO),
                 request);
     }
 
-    // DELETE localhost:8080/customer/{id}
+    // DELETE localhost:8080/kategoriProduk/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id,
                                          HttpServletRequest request){
-        return customerService.delete(id,request);
+        return kategoriProdukService.delete(id,request);
     }
 
-    // GET localhost:8080/customer/{id}
+    // GET localhost:8080/kategoriProduk/{id}
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable Long id,
                                          HttpServletRequest request){
-        return customerService.findById(id,request);
+        return kategoriProdukService.findById(id,request);
     }
 
-    // GET localhost:8080/customer
+    // GET localhost:8080/kategoriProduk
     @GetMapping
     public ResponseEntity<Object> findAll(HttpServletRequest request){
         Pageable pageable = null;
-        /** Pagination dimana yang ditampilkan adalah 10 data halaman pertama
-         *  diurutkan ascending berdasarkan kolom id
-         */
         pageable = PageRequest.of(0,10, Sort.by("id"));// int int sort (asc)
-        return customerService.findAll(pageable,request);
+        return kategoriProdukService.findAll(pageable,request);
     }
 
-    /**
-     * SELECT * FROM MstCustomer
-     * SELECT c FROM CUSTOMER c
-     * SELECT c FROM CUSTOMER c WHERE name = ?1
-     * findByName -> jpql (derived Query)
-     * GET localhost:8080/customer/asc/id/0?column=nama&size=10&value=Paul Ch
-     */
     @GetMapping("/{sort}/{sort-by}/{page}")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
@@ -92,12 +82,12 @@ public class CustomerController {
             default:pageable = PageRequest.of(page,size, Sort.by(sortBy));break;
         }
 
-        return customerService.findByParam(pageable,column,value,request);
+        return kategoriProdukService.findByParam(pageable,column,value,request);
     }
 
     @PostMapping("/upload-excel")
     public ResponseEntity<Object> uploadExcel(MultipartFile filez , HttpServletRequest request){
-        return customerService.uploadDataExcel(filez,request);
+        return kategoriProdukService.uploadDataExcel(filez,request);
     }
     @GetMapping("/download-excel")
     public void downloadExcel(
@@ -106,7 +96,7 @@ public class CustomerController {
             HttpServletRequest request,
             HttpServletResponse response
             ){
-        customerService.downloadReportExcel(column,value,request,response);
+        kategoriProdukService.downloadReportExcel(column,value,request,response);
     }
 
     @GetMapping("/download-pdf")
@@ -116,35 +106,13 @@ public class CustomerController {
             HttpServletRequest request,
             HttpServletResponse response
     ){
-        customerService.generateToPDF(column,value,request,response);
-    }
-    @GetMapping("/download-excel-reflection")
-    public void downloadExcelReflection(
-            @RequestParam String column,
-            @RequestParam String value,
-            HttpServletRequest request,
-            HttpServletResponse response
-    ){
-        customerService.downloadReportExcel(column,value,request,response,null);
-    }
-    @GetMapping("/download-pdf-reflection")
-    public void downloadPDFReflection(
-            @RequestParam String column,
-            @RequestParam String value,
-            HttpServletRequest request,
-            HttpServletResponse response
-    ){
-        customerService.generateToPDF(column,value,request,response,null);
+        kategoriProdukService.generateToPDF(column,value,request,response);
     }
 
     private String sortColumn(String column){
         switch (column){
             case "id":column="id";break;
             case "nama":column="nama";break;
-            case "email":column="email";break;
-            case "noHp":column="noHp";break;
-            case "tanggalLahir":column="tanggalLahir";break;
-            case "tambahan":column="tambahan";break;
             default:column="false";break;
         }
         return column;

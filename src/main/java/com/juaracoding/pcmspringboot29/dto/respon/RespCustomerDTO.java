@@ -17,6 +17,15 @@ public class RespCustomerDTO {
     private String noHp;
     private String tambahan;
     private Integer umur;
+//    private String objectNambah="OK";
+//
+//    public String getObjectNambah() {
+//        return objectNambah;
+//    }
+//
+//    public void setObjectNambah(String objectNambah) {
+//        this.objectNambah = objectNambah;
+//    }
 
     public Integer getUmur() {
         return Period.between(LocalDate.parse(tanggalLahir),LocalDate.now()).getYears();

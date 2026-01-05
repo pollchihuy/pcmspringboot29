@@ -6,22 +6,20 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
-@Table(name = "MstKategoriProduk")
-public class KategoriProduk {
+@Table(name = "LogKategoriProduk")
+public class LogKategoriProduk {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
+    @Column(name = "IDKategoriProduk")
+    private Long idKategoriProduk;
 
-    @Column(name = "NamaKategori",nullable = false,unique = true,length = 40)
+    @Column(name = "NamaKategori",nullable = false,length = 40)
     private String nama;
-
-//    @OneToMany(mappedBy = "kategoriProduk")
-//    private List<Produk> produk;
 
     @Column(name = "CreatedBy",updatable = false,nullable = false)
     private Long createdBy=1L;
@@ -30,12 +28,24 @@ public class KategoriProduk {
     @CreationTimestamp
     private Date createdDate;
 
-    @Column(name = "ModifiedBy",insertable = false)
-    private Long modifiedBy=1L;
+    @Column(name = "Flag",nullable = false,length = 1)
+    private String flag;
 
-    @Column(name = "ModifiedDate",insertable = false)
-    @UpdateTimestamp
-    private Date modifiedDate;
+    public Long getIdKategoriProduk() {
+        return idKategoriProduk;
+    }
+
+    public void setIdKategoriProduk(Long idKategoriProduk) {
+        this.idKategoriProduk = idKategoriProduk;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
 
     public Long getId() {
         return id;
@@ -67,21 +77,5 @@ public class KategoriProduk {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public Long getModifiedBy() {
-        return modifiedBy;
-    }
-
-    public void setModifiedBy(Long modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
-
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
     }
 }
