@@ -9,6 +9,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+//PWT? Paul Web Token
 public class CustomHttpFilter implements Filter {
 
     @Override
