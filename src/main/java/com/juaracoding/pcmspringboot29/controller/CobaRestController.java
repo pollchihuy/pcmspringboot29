@@ -15,7 +15,7 @@ public class CobaRestController {
     @GetMapping
     public Object welcomePage(){
         User user = new User();
-        user.setNama("Paul");
+//        user.setNama("Paul");
         user.setAlamat("Bogor");
         return user;
     }
