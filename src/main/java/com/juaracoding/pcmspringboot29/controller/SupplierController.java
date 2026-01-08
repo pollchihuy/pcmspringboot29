@@ -1,8 +1,8 @@
 package com.juaracoding.pcmspringboot29.controller;
 
-import com.juaracoding.pcmspringboot29.dto.validasi.ValKategoriProdukDTO;
+import com.juaracoding.pcmspringboot29.dto.validasi.ValSupplierDTO;
 import com.juaracoding.pcmspringboot29.handler.ResponseHandler;
-import com.juaracoding.pcmspringboot29.services.KategoriProdukService;
+import com.juaracoding.pcmspringboot29.services.SupplierService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -12,64 +12,56 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("kategoriProduk")
-public class KategoriProdukController {
+@RequestMapping("supplier")
+public class SupplierController {
 
     @Autowired
-    private KategoriProdukService kategoriProdukService;
+    private SupplierService supplierService;
 
-    // POST localhost:8080/kategoriProduk
+    // POST localhost:8080/supplier
     @PostMapping
-    @PreAuthorize("hasAuthority('Kategori-Produk')")
-    public ResponseEntity<Object> save(@Valid @RequestBody ValKategoriProdukDTO valKategoriProdukDTO,
+    public ResponseEntity<Object> save(@Valid @RequestBody ValSupplierDTO valSupplierDTO,
                                        HttpServletRequest request){
-        return kategoriProdukService.save(kategoriProdukService.mapMPToEntity(valKategoriProdukDTO),
+        return supplierService.save(supplierService.mapMPToEntity(valSupplierDTO),
                 request);
     }
 
-//    RWX -> Read Write Execution
-    // PUT localhost:8080/kategoriProduk/{id}
+    // PUT localhost:8080/supplier/{id}
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('Kategori-Produk')")
-    public ResponseEntity<Object> update(@Valid @RequestBody ValKategoriProdukDTO valKategoriProdukDTO,
+    public ResponseEntity<Object> update(@Valid @RequestBody ValSupplierDTO valSupplierDTO,
                                        @PathVariable Long id,
                                        HttpServletRequest request){
-        return kategoriProdukService.update(id,kategoriProdukService.mapMPToEntity(valKategoriProdukDTO),
+        return supplierService.update(id,supplierService.mapMPToEntity(valSupplierDTO),
                 request);
     }
 
-    // DELETE localhost:8080/kategoriProduk/{id}
+    // DELETE localhost:8080/supplier/{id}
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('Kategori-Produk')")
     public ResponseEntity<Object> delete(@PathVariable Long id,
                                          HttpServletRequest request){
-        return kategoriProdukService.delete(id,request);
+        return supplierService.delete(id,request);
     }
 
-    // GET localhost:8080/kategoriProduk/{id}
+    // GET localhost:8080/supplier/{id}
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('Kategori-Produk')")
     public ResponseEntity<Object> findById(@PathVariable Long id,
                                          HttpServletRequest request){
-        return kategoriProdukService.findById(id,request);
+        return supplierService.findById(id,request);
     }
 
-    // GET localhost:8080/kategoriProduk
+    // GET localhost:8080/supplier
     @GetMapping
-    @PreAuthorize("hasAuthority('Kategori-Produk')")
     public ResponseEntity<Object> findAll(HttpServletRequest request){
         Pageable pageable = null;
         pageable = PageRequest.of(0,10, Sort.by("id"));// int int sort (asc)
-        return kategoriProdukService.findAll(pageable,request);
+        return supplierService.findAll(pageable,request);
     }
 
     @GetMapping("/{sort}/{sort-by}/{page}")
-    @PreAuthorize("hasAuthority('Kategori-Produk')")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
             @PathVariable(value = "sort-by") String sortBy,
@@ -83,41 +75,38 @@ public class KategoriProdukController {
         sortBy = sortColumn(sortBy);
         if(sortBy.equals("false")){
             return new ResponseHandler().handleResponse("DATA TIDAK DITEMUKAN", HttpStatus.BAD_REQUEST,null,
-                    "MST10V051",request);
+                    "MST03V051",request);
         }
         switch (sort) {
             case "desc":pageable = PageRequest.of(page,size, Sort.by(sortBy).descending());break;
             default:pageable = PageRequest.of(page,size, Sort.by(sortBy));break;
         }
 
-        return kategoriProdukService.findByParam(pageable,column,value,request);
+        return supplierService.findByParam(pageable,column,value,request);
     }
 
     @PostMapping("/upload-excel")
-    @PreAuthorize("hasAuthority('Kategori-Produk')")
     public ResponseEntity<Object> uploadExcel(MultipartFile filez , HttpServletRequest request){
-        return kategoriProdukService.uploadDataExcel(filez,request);
+        return supplierService.uploadDataExcel(filez,request);
     }
     @GetMapping("/download-excel")
-    @PreAuthorize("hasAuthority('Kategori-Produk')")
     public void downloadExcel(
             @RequestParam String column,
             @RequestParam String value,
             HttpServletRequest request,
             HttpServletResponse response
             ){
-        kategoriProdukService.downloadReportExcel(column,value,request,response);
+        supplierService.downloadReportExcel(column,value,request,response);
     }
 
     @GetMapping("/download-pdf")
-    @PreAuthorize("hasAuthority('Kategori-Produk')")
     public void downloadPDF(
             @RequestParam String column,
             @RequestParam String value,
             HttpServletRequest request,
             HttpServletResponse response
     ){
-        kategoriProdukService.generateToPDF(column,value,request,response);
+        supplierService.generateToPDF(column,value,request,response);
     }
 
     private String sortColumn(String column){

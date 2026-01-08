@@ -60,8 +60,8 @@ public class AuthService implements UserDetailsService {
         try{
             int otp = random.nextInt(100000,999999);
             user.setOtp(BcryptImpl.hash(String.valueOf(user.getUsername()+otp)));
-//            user.setPassword(BcryptImpl.hash(user.getUsername()+user.getPassword()));
-            user.setPassword(BcryptImpl.hash(user.getPassword()));
+            user.setPassword(BcryptImpl.hash(user.getUsername()+user.getPassword()));
+//            user.setPassword(BcryptImpl.hash(user.getPassword()));
             /** Default Akses untuk New member */
             Akses akses = new Akses();
             akses.setId(2L);
@@ -123,8 +123,8 @@ public class AuthService implements UserDetailsService {
             }
             userNext = opUser.get();//diambil dari DB
 
-//            String pwdDB = userNext.getUsername()+user.getPassword();
-            String pwdDB = user.getPassword();
+            String pwdDB = userNext.getUsername()+user.getPassword();
+//            String pwdDB = user.getPassword();
             if(!BcryptImpl.verifyHash(pwdDB,userNext.getPassword())) {
                 return new ResponseHandler().handleResponse("Username atau Password Salah !!",HttpStatus.BAD_REQUEST,null,"AUT00FV022",request);
             }

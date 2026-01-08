@@ -36,6 +36,13 @@ INSERT INTO [projectz].[MstMenu] ([CreatedBy], [CreatedDate], [ID], [IDGroupMenu
 INSERT INTO [projectz].[MstMenu] ([CreatedBy], [CreatedDate], [ID], [IDGroupMenu], [ModifiedBy], [ModifiedDate], [Nama], [Path], [Deskripsi]) VALUES (N'1', N'2025-05-21 20:46:18.000000', N'7', N'2', NULL, NULL, N'Artikel-3', N'/artikel-3', N'Untuk Konfigurasi Artikel 3')
 ;
 
+INSERT INTO [projectz].[MstMenu] ([CreatedBy], [CreatedDate], [ID], [IDGroupMenu], [ModifiedBy], [ModifiedDate], [Nama], [Path], [Deskripsi]) VALUES (N'1', N'2025-05-21 20:46:18.000000', N'8', N'2', NULL, NULL, N'Kategori-Produk', N'/kategoriProduk', N'Untuk Konfigurasi Kategori Produk')
+;
+INSERT INTO [projectz].[MstMenu] ([CreatedBy], [CreatedDate], [ID], [IDGroupMenu], [ModifiedBy], [ModifiedDate], [Nama], [Path], [Deskripsi]) VALUES (N'1', N'2025-05-21 20:46:18.000000', N'9', N'2', NULL, NULL, N'Supplier', N'/supplier', N'Untuk Konfigurasi Supplier')
+;
+INSERT INTO [projectz].[MstMenu] ([CreatedBy], [CreatedDate], [ID], [IDGroupMenu], [ModifiedBy], [ModifiedDate], [Nama], [Path], [Deskripsi]) VALUES (N'1', N'2025-05-21 20:46:18.000000', N'10', N'2', NULL, NULL, N'Produk', N'/produk', N'Untuk Konfigurasi Produk')
+;
+
 SET IDENTITY_INSERT [projectz].[MstMenu] OFF
 ;
 
@@ -70,6 +77,14 @@ INSERT INTO [projectz].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'5')
 ;
 
 INSERT INTO [projectz].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'6')
+;
+INSERT INTO [projectz].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'7')
+;
+INSERT INTO [projectz].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'8')
+;
+INSERT INTO [projectz].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'9')
+;
+INSERT INTO [projectz].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'10')
 ;
 
 INSERT INTO [projectz].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'2', N'5')
