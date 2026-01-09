@@ -180,7 +180,7 @@ public class KategoriProdukService implements IService<KategoriProduk>, IReport<
             if(page.isEmpty()){
                 return GlobalResponse.dataTidakDitemukan("MST01V031",request);
             }
-            mapResponse = tf.transformPagination(mapMPToDTO(page.getContent()),page,"id","");
+            mapResponse = tf.transformPagination(mapMPToDTO(page.getContent()),page,columnName,value);
         }catch (Exception e){
             LoggingFile.logException("KategoriProdukService","findAll(Pageable pageable, HttpServletRequest request) LINE 140 " + RequestCapture.allRequest(request),e);
             return GlobalResponse.terjadiKesalahan("MST10E040",request);
@@ -223,7 +223,7 @@ public class KategoriProdukService implements IService<KategoriProduk>, IReport<
             LoggingFile.logException("KategoriProdukService","uploadDataExcel(MultipartFile multipartFile, HttpServletRequest request)  LINE 225 " + RequestCapture.allRequest(request),e);
             return GlobalResponse.terjadiKesalahan("MST10E070",request);
         }
-        return GlobalResponse.dataBerhasilDisimpan(request);
+        return GlobalResponse.uploadFileExcelBerhasil(request);
     }
 
     @Override

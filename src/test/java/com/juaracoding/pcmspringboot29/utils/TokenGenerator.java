@@ -23,7 +23,7 @@ public class TokenGenerator {
             /** seluruh testing URI nya berasal dari sini
              * Tidak perlu dibuatkan environment variable karena tidak akan di deploy ke server production
              */
-            RestAssured.baseURI = "http://localhost:8085";
+            RestAssured.baseURI = "http://localhost:8080";
             doLoginManual();
         }else {
             /** untuk integration ataupun suite test agar menjaga tidak perlu request token berulang-ulang

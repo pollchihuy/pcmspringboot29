@@ -1,5 +1,6 @@
 package com.juaracoding.pcmspringboot29.controller;
 
+import com.juaracoding.pcmspringboot29.config.OtherConfig;
 import com.juaracoding.pcmspringboot29.dto.validasi.ValSupplierDTO;
 import com.juaracoding.pcmspringboot29.handler.ResponseHandler;
 import com.juaracoding.pcmspringboot29.services.SupplierService;
@@ -57,7 +58,7 @@ public class SupplierController {
     @GetMapping
     public ResponseEntity<Object> findAll(HttpServletRequest request){
         Pageable pageable = null;
-        pageable = PageRequest.of(0,10, Sort.by("id"));// int int sort (asc)
+        pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));// int int sort (asc)
         return supplierService.findAll(pageable,request);
     }
 

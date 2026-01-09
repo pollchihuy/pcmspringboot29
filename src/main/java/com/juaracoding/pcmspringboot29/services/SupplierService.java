@@ -169,7 +169,7 @@ public class SupplierService implements IService<Supplier>, IReport<Supplier> {
             if(page.isEmpty()){
                 return GlobalResponse.dataTidakDitemukan("MS03V031",request);
             }
-            mapResponse = tf.transformPagination(mapMPToDTO(page.getContent()),page,"id","");
+            mapResponse = tf.transformPagination(mapMPToDTO(page.getContent()),page,columnName,value);
         }catch (Exception e){
             LoggingFile.logException("SupplierService","findAll(Pageable pageable, HttpServletRequest request) LINE 140 " + RequestCapture.allRequest(request),e);
             return GlobalResponse.terjadiKesalahan("MST10E040",request);
@@ -211,7 +211,7 @@ public class SupplierService implements IService<Supplier>, IReport<Supplier> {
             LoggingFile.logException("SupplierService","uploadDataExcel(MultipartFile multipartFile, HttpServletRequest request)  LINE 225 " + RequestCapture.allRequest(request),e);
             return GlobalResponse.terjadiKesalahan("MST10E070",request);
         }
-        return GlobalResponse.dataBerhasilDisimpan(request);
+        return GlobalResponse.uploadFileExcelBerhasil(request);
     }
 
     @Override

@@ -74,7 +74,6 @@ public class AuthService implements UserDetailsService {
 //            SendMailOTP.verifyRegisOTP("OTP UNTUK REGISTRASI",
 //                    user.getNamaLengkap(),user.getEmail(),String.valueOf(otp),"ver_regis.html");
             m.put("email",user.getEmail());
-            Thread.sleep(1000);
         }catch (Exception e){
 //            String strArr [] = {"poll.chihuy@gmail.com","alfin@gmail.com",""};
             LoggingFile.logException("AuthService","regis(User user, HttpServletRequest request)"+ RequestCapture.allRequest(request),e);

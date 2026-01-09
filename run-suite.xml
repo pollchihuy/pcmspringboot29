@@ -3,8 +3,9 @@
 <suite name="Suite Semua">
     <test name="Test-All">
         <classes>
-            <class name="com.juaracoding.contoh.TestFungsiAritmatika"></class>
-            <class name="com.juaracoding.contoh.TestFungsiStr"></class>
+            <class name="com.juaracoding.pcmspringboot29.controller.AuthControllerTest"></class>
+            <class name="com.juaracoding.pcmspringboot29.controller.KategoriProdukControllerTest"></class>
+            <class name="com.juaracoding.pcmspringboot29.controller.SupplierControllerTest"></class>
         </classes>
     </test>
 </suite>
